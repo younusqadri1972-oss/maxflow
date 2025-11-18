@@ -9,14 +9,14 @@
 
     <style>
         /* ----------------------------------
-           CSS Styling (DARK CONTRAST THEME + FORM)
+            CSS Styling (DARK CONTRAST THEME + FORM)
         ----------------------------------- */
         :root {
-            --primary-dark: #121F33;    /* Deep Navy Blue/Dark Gray */
-            --secondary-dark: #1F3354;  /* Slightly Lighter Dark Blue */
-            --accent-teal: #00bcd4;     /* Electric Teal (Globe/Buttons) */
-            --text-light: #f0f8ff;      /* Off-White Text */
-            --text-muted: #cccccc;      /* Muted Light Gray */
+            --primary-dark: #121F33; 
+            --secondary-dark: #1F3354; 
+            --accent-teal: #00bcd4; 
+            --text-light: #f0f8ff; 
+            --text-muted: #cccccc; 
         }
 
         body {
@@ -49,7 +49,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px 5%;
-            background-color: rgba(18, 31,  51, 0.9);
+            background-color: rgba(18, 31, 51, 0.9);
             backdrop-filter: blur(8px);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
             position: sticky;
@@ -89,7 +89,6 @@
             color: var(--accent-teal);
         }
 
-        /* --- NEW: Navbar Order Button Style --- */
         .nav-order-btn {
             background-color: var(--accent-teal);
             color: var(--primary-dark);
@@ -105,7 +104,6 @@
             color: white;
             transform: translateY(-1px);
         }
-        /* --- END NEW NAV BUTTON --- */
 
         .container {
             max-width: 1200px;
@@ -135,7 +133,63 @@
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
         }
         
-        /* --- Order Form Section Styling (NEW) --- */
+        /* Hero Section Button Style (NEW) */
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-teal);
+            color: var(--primary-dark);
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-decoration: none;
+            margin-top: 40px;
+            box-shadow: 0 0 15px rgba(0, 188, 212, 0.7);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .btn:hover {
+            background-color: #0097a7;
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        /* Feature Section Grid Layout (NEW) */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background-color: var(--primary-dark);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 188, 212, 0.3);
+            text-align: center;
+        }
+        .feature-card h3 {
+            color: var(--accent-teal);
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        .feature-card p {
+            color: var(--text-muted);
+        }
+
+        /* About Section Flex Layout (NEW) */
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .about-content > div {
+            flex: 1;
+        }
+
+        /* --- Order Form Section Styling --- */
         #order-form {
             background-color: var(--primary-dark);
             padding: 100px 0;
@@ -169,7 +223,7 @@
             padding: 12px;
             border: 1px solid rgba(0, 188, 212, 0.3);
             border-radius: 5px;
-            background-color: #0a111a; /* Very dark input field */
+            background-color: #0a111a; 
             color: white;
             font-size: 1em;
             box-sizing: border-box;
@@ -203,7 +257,6 @@
             background-color: #0097a7;
             transform: translateY(-2px);
         }
-        /* --- END ORDER FORM STYLING --- */
 
         /* Features Section */
         #features {
@@ -214,16 +267,13 @@
         #about {
              background-color: var(--primary-dark);
         }
-        /* Contact Section */
-        #contact {
-            background-color: var(--secondary-dark);
-        }
         
         .about-image {
             max-width: 250px;
             border-radius: 8px;
             border: 3px solid var(--accent-teal);
             box-shadow: 0 0 10px var(--accent-teal);
+            height: auto; /* Added for responsiveness */
         }
 
         /* Footer */
@@ -236,7 +286,7 @@
         }
 
         /* ----------------------------------
-           Animation CSS 
+            Animation CSS 
         ----------------------------------- */
         .animated-section {
             opacity: 0;
@@ -249,6 +299,87 @@
             transform: translateY(0);
         }
         
+        /* ----------------------------------
+            RESPONSIVE MEDIA QUERIES (NEW)
+        ----------------------------------- */
+        @media (max-width: 768px) {
+            
+            /* Global Adjustments */
+            section {
+                padding: 70px 0;
+            }
+
+            h2 {
+                font-size: 2.2em;
+                margin-bottom: 30px;
+            }
+            
+            /* Navbar Adjustment (Stacking logo and links) */
+            .navbar .container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%; /* Take full width */
+            }
+
+            .nav-links a {
+                margin: 5px 0 5px 0; /* Stack vertically with small margin */
+                padding: 5px 0;
+                width: 100%;
+                text-align: left;
+            }
+            
+            .nav-order-btn {
+                margin-left: 0;
+                margin-top: 10px;
+                text-align: center;
+            }
+
+            /* Hero Section */
+            #hero {
+                padding: 100px 0;
+            }
+
+            #hero img {
+                max-width: 90% !important; /* Made image smaller on mobile */
+                height: auto !important;
+            }
+
+            /* Features Grid (Change to single column) */
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* About Content (Stacking text and image) */
+            .about-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .about-content > div {
+                margin-bottom: 30px;
+            }
+
+            .about-image {
+                max-width: 200px;
+            }
+
+            /* Order Form Container */
+            .form-container {
+                padding: 20px;
+            }
+        }
+        /* ----------------------------------
+            END RESPONSIVE MEDIA QUERIES
+        ----------------------------------- */
     </style>
 </head>
 <body>
@@ -450,6 +581,7 @@
             camera.position.z = 2;
 
             // Animation loop
+            let originalAnimate = null; // Defined outside to allow redefinition
             function animate() {
                 requestAnimationFrame(animate);
                 logoPlane.rotation.x += 0.0005;
@@ -464,8 +596,8 @@
 
                 renderer.render(scene, camera);
             }
-
-            animate();
+            
+            originalAnimate = animate;
 
             // Handle window resizing
             window.addEventListener('resize', () => {
@@ -496,12 +628,26 @@
             const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
             scene.add(particlesMesh);
 
-            const originalAnimate = animate;
+            // Redefine animate to include particles rotation
             animate = () => {
-                originalAnimate();
+                requestAnimationFrame(animate);
+                logoPlane.rotation.x += 0.0005;
+                logoPlane.rotation.y += 0.0008;
+
+                const time = Date.now() * 0.0005;
+                const bobbing = Math.sin(time) * 0.3;
+                const drifting = Math.cos(time * 0.7) * 0.4;
+                
+                logoPlane.position.y = bobbing;
+                logoPlane.position.x = drifting;
+                
                 particlesMesh.rotation.x += 0.00005;
                 particlesMesh.rotation.y += 0.0001;
+
+                renderer.render(scene, camera);
             };
+
+            animate();
         }
         
         window.onload = initThreeJSLogoBackground;
