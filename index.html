@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flowmax - Smart Water Control Device (Order Form Included)</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        /* ----------------------------------
+           CSS Styling (DARK CONTRAST THEME + FORM)
+        ----------------------------------- */
+        :root {
+            --primary-dark: #121F33;    /* Deep Navy Blue/Dark Gray */
+            --secondary-dark: #1F3354;  /* Slightly Lighter Dark Blue */
+            --accent-teal: #00bcd4;     /* Electric Teal (Globe/Buttons) */
+            --text-light: #f0f8ff;      /* Off-White Text */
+            --text-muted: #cccccc;      /* Muted Light Gray */
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--primary-dark); 
+            color: var(--text-light);
+            scroll-behavior: smooth;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* --- 3D LOGO BACKGROUND CONTAINER --- */
+        #threejs-globe-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; 
+            overflow: hidden;
+            pointer-events: none;
+            background-color: var(--primary-dark);
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background-color: rgba(18, 31,  51, 0.9);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--accent-teal);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 30px;
+            margin-right: 10px;
+            filter: drop-shadow(0 0 5px var(--accent-teal)); 
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            margin-left: 25px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-teal);
+        }
+
+        /* --- NEW: Navbar Order Button Style --- */
+        .nav-order-btn {
+            background-color: var(--accent-teal);
+            color: var(--primary-dark);
+            padding: 8px 18px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-left: 30px;
+            box-shadow: 0 0 10px rgba(0, 188, 212, 0.5);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .nav-order-btn:hover {
+            background-color: #0097a7;
+            color: white;
+            transform: translateY(-1px);
+        }
+        /* --- END NEW NAV BUTTON --- */
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 5%;
+        }
+
+        section {
+            padding: 100px 0;
+            position: relative;
+            z-index: 10;
+            background-color: rgba(0, 0, 0, 0.0);
+        }
+        
+        h2 {
+            text-align: center;
+            font-size: 3em;
+            color: var(--accent-teal);
+            margin-bottom: 50px;
+        }
+
+        /* Hero Section */
+        #hero {
+            background: linear-gradient(180deg, rgba(18, 31, 51, 0.9) 0%, rgba(18, 31, 51, 0.7) 100%); 
+            padding: 150px 0;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* --- Order Form Section Styling (NEW) --- */
+        #order-form {
+            background-color: var(--primary-dark);
+            padding: 100px 0;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--secondary-dark);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0, 188, 212, 0.2);
+            border: 1px solid rgba(0, 188, 212, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--text-light);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(0, 188, 212, 0.3);
+            border-radius: 5px;
+            background-color: #0a111a; /* Very dark input field */
+            color: white;
+            font-size: 1em;
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-teal);
+            box-shadow: 0 0 5px var(--accent-teal);
+        }
+        
+        .form-submit-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: var(--accent-teal);
+            color: var(--primary-dark);
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 0 15px rgba(0, 188, 212, 0.7);
+        }
+        
+        .form-submit-btn:hover {
+            background-color: #0097a7;
+            transform: translateY(-2px);
+        }
+        /* --- END ORDER FORM STYLING --- */
+
+        /* Features Section */
+        #features {
+             background-color: var(--secondary-dark);
+             border-top: 1px solid rgba(0, 188, 212, 0.2);
+        }
+        /* About Section */
+        #about {
+             background-color: var(--primary-dark);
+        }
+        /* Contact Section */
+        #contact {
+            background-color: var(--secondary-dark);
+        }
+        
+        .about-image {
+            max-width: 250px;
+            border-radius: 8px;
+            border: 3px solid var(--accent-teal);
+            box-shadow: 0 0 10px var(--accent-teal);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0d1624;
+            color: var(--text-muted);
+            text-align: center;
+            padding: 20px 0;
+            border-top: 1px solid rgba(0, 188, 212, 0.1);
+        }
+
+        /* ----------------------------------
+           Animation CSS 
+        ----------------------------------- */
+        .animated-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .animated-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+    </style>
+</head>
+<body>
+    
+    <div id="threejs-globe-bg"></div>
+
+    <nav class="navbar">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <a href="#hero" class="logo">
+                <img src="https://png.pngtree.com/png-clipart/20200709/original/pngtree-abstract-tech-world-globe-logo-template-vector-illustration-png-image_4010173.jpg" alt="Flowmax Logo">
+                Flowmax
+            </a>
+            <div class="nav-links">
+                <a href="#hero">Home</a>
+                <a href="#features">Features</a>
+                <a href="#about">About Us</a>
+                <a href="#contact">Contact</a>
+                <a href="#order-form" class="nav-order-btn">Order Now</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="hero" class="animated-section">
+        <div class="container">
+            <h1>Automate Your Water, Save Your Energy.</h1>
+            <p style="font-size: 1.2em; max-width: 700px; margin: 0 auto 20px;">Flowmax is the intelligent solution that automatically manages your water motor, ensuring zero wastage and maximum efficiency.</p>
+            
+            <div style="margin-top: 30px;">
+                <div style="background-color: rgba(255, 255, 255, 0.05); padding: 40px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); border: 1px solid rgba(0, 188, 212, 0.2);">
+                    <img src="ChatGPT Image Nov 17, 2025, 08_54_38 AM.png" alt="Flowmax Product" style="max-width: 50%; height: 50%; border-radius: 5px; filter: drop-shadow(0 0 10px rgba(0, 188, 212, 0.5));">
+                </div>
+            </div>
+            
+            <a href="#order-form" class="btn">Order Now & Get Started</a>
+        </div>
+    </section>
+
+    <section id="features" class="animated-section">
+        <div class="container">
+            <h2>Intelligent Features for Modern Homes</h2>
+            <div class="feature-grid">
+                
+                <div class="feature-card">
+                    <h3>💧 Auto Start on Line Flow</h3>
+                    <p>The moment water pressure is detected in the line, Flowmax activates your motor instantly. No manual checks needed.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🛑 Full Tank Auto-Stop</h3>
+                    <p>Intelligent sensors detect when your water tank is full, automatically switching off the motor to prevent overflow and wastage.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>⚡ Energy Efficiency</h3>
+                    <p>By running the motor only when necessary, Flowmax significantly reduces your electricity consumption and minimizes utility bills.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="order-form" class="animated-section">
+        <div class="container">
+            <h2>Place Your Order Today</h2>
+            <div class="form-container">
+                <form action="max.php" method="POST">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="+92 3XX XXXXXXX">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Installation Address</label>
+                        <textarea id="address" name="address" rows="3" required placeholder="House No., Street, City"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="model">Select Flowmax Model</label>
+                        <select id="model" name="model" required>
+                            <option value="" disabled selected>Choose a Model...</option>
+                            <option value="standard">Flowmax Standard (Basic Automation)</option>
+                            <option value="pro">Flowmax Pro (App Control + Energy Monitoring)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="motor-type">Motor Horsepower (HP)</label>
+                        <input type="text" id="motor-type" name="motor-type" required placeholder="e.g., 0.5 HP or 1.0 HP">
+                    </div>
+                    <button type="submit" class="form-submit-btn">Confirm Order</button>
+                    <p style="text-align: center; font-size: 0.9em; margin-top: 15px; color: var(--text-muted);">We will contact you within 24 hours to confirm installation details.</p>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <section id="about" class="animated-section">
+        <div class="container">
+            <h2>Our Story: Innovation in Water Management</h2>
+            <div class="about-content">
+                <div>
+                    <p style="line-height: 1.7;">Flowmax was founded on the principle of simplicity and reliability. Our mission is to liberate homeowners from the daily worry of water management using smart, dependable technology.</p>
+                    <p style="line-height: 1.7;">This vision was pioneered by our founder, **Mr. Muhammad Younus**. He aimed to create a robust, smart solution that utilizes technology to conserve water and energy, making life easier for every user.</p>
+                    <p style="font-weight: bold; margin-top: 20px; color: var(--accent-teal);">Founder: Muhammad Younus</p>
+                </div>
+                <div style="text-align: center;">
+                    <img src="https://png.pngtree.com/png-clipart/20200709/original/pngtree-abstract-tech-world-globe-logo-template-vector-illustration-png-image_4010173.jpg" alt="Flowmax Vision" class="about-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="animated-section">
+        <div class="container">
+            <h2>Get in Touch</h2>
+            <p style="color: var(--text-muted);">We are here to answer your questions and assist with your orders. Contact us today!</p>
+            
+            <div class="contact-details">
+                <p><strong>📞 Phone:</strong> +92 300 1234567 (Dummy)</p>
+                <p><strong>📧 Email:</strong> info@flowmaxproducts.com (Dummy)</p>
+                <p><strong>📍 Address:</strong> Plot No. 10, Innovation Hub, Karachi, Pakistan (Dummy)</p>
+            </div>
+            <p style="margin-top: 20px; font-style: italic; color: var(--text-muted);">Note: A functional contact form requires back-end setup.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Flowmax. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for section animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.animated-section');
+
+            const observerOptions = {
+                root: null, 
+                rootMargin: '0px',
+                threshold: 0.2
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+
+        // --- Three.js for Animated Logo Background ---
+        function initThreeJSLogoBackground() {
+            const container = document.getElementById('threejs-globe-bg');
+            if (!container) return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            container.appendChild(renderer.domElement);
+
+            // Lighting (High Contrast)
+            const ambientLight = new THREE.AmbientLight(0x444444, 0.8);
+            scene.add(ambientLight);
+            const pointLight = new THREE.PointLight(0xffffff, 2); 
+            pointLight.position.set(5, 5, 5);
+            scene.add(pointLight);
+            const pointLight2 = new THREE.PointLight(0x00bcd4, 1.5); 
+            pointLight2.position.set(-5, -5, 5);
+            scene.add(pointLight2);
+
+            // Load the logo texture
+            const textureLoader = new THREE.TextureLoader();
+            const logoTexture = textureLoader.load('https://png.pngtree.com/png-clipart/20200709/original/pngtree-abstract-tech-world-globe-logo-template-vector-illustration-png-image_4010173.jpg');
+
+            // Create a plane geometry to put the logo on
+            const planeGeometry = new THREE.PlaneGeometry(3.5, 3.5);
+            const planeMaterial = new THREE.MeshStandardMaterial({
+                map: logoTexture,
+                transparent: true,
+                side: THREE.DoubleSide,
+                emissive: 0x00bcd4,
+                emissiveIntensity: 0.4
+            });
+            const logoPlane = new THREE.Mesh(planeGeometry, planeMaterial);
+            scene.add(logoPlane);
+
+            logoPlane.position.set(0.5, 0, -8); 
+            logoPlane.scale.set(0.8, 0.8, 0.8);
+            camera.position.z = 2;
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                logoPlane.rotation.x += 0.0005;
+                logoPlane.rotation.y += 0.0008;
+
+                const time = Date.now() * 0.0005;
+                const bobbing = Math.sin(time) * 0.3;
+                const drifting = Math.cos(time * 0.7) * 0.4;
+                
+                logoPlane.position.y = bobbing;
+                logoPlane.position.x = drifting;
+
+                renderer.render(scene, camera);
+            }
+
+            animate();
+
+            // Handle window resizing
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+
+             // Add glowing particles for depth
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 300;
+            const posArray = new Float32Array(particlesCount * 3);
+            
+            for (let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 20; 
+            }
+
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.04,
+                color: 0xffffff,
+                blending: THREE.AdditiveBlending,
+                transparent: true,
+                opacity: 0.5
+            });
+            
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+
+            const originalAnimate = animate;
+            animate = () => {
+                originalAnimate();
+                particlesMesh.rotation.x += 0.00005;
+                particlesMesh.rotation.y += 0.0001;
+            };
+        }
+        
+        window.onload = initThreeJSLogoBackground;
+    </script>
+
+</body>
+</html>
