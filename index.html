@@ -133,7 +133,7 @@
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
         }
         
-        /* Hero Section Button Style (NEW) */
+        /* Hero Section Button Style */
         .btn {
             display: inline-block;
             background-color: var(--accent-teal);
@@ -153,7 +153,7 @@
             color: white;
         }
 
-        /* Feature Section Grid Layout (NEW) */
+        /* Feature Section Grid Layout */
         .feature-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr); 
@@ -178,7 +178,7 @@
             color: var(--text-muted);
         }
 
-        /* About Section Flex Layout (NEW) */
+        /* About Section Flex Layout */
         .about-content {
             display: flex;
             align-items: center;
@@ -273,7 +273,7 @@
             border-radius: 8px;
             border: 3px solid var(--accent-teal);
             box-shadow: 0 0 10px var(--accent-teal);
-            height: auto; /* Added for responsiveness */
+            height: auto; 
         }
 
         /* Footer */
@@ -300,7 +300,7 @@
         }
         
         /* ----------------------------------
-            RESPONSIVE MEDIA QUERIES (NEW)
+            RESPONSIVE MEDIA QUERIES
         ----------------------------------- */
         @media (max-width: 768px) {
             
@@ -327,11 +327,11 @@
             .nav-links {
                 flex-direction: column;
                 align-items: flex-start;
-                width: 100%; /* Take full width */
+                width: 100%; 
             }
 
             .nav-links a {
-                margin: 5px 0 5px 0; /* Stack vertically with small margin */
+                margin: 5px 0 5px 0; 
                 padding: 5px 0;
                 width: 100%;
                 text-align: left;
@@ -349,7 +349,7 @@
             }
 
             #hero img {
-                max-width: 90% !important; /* Made image smaller on mobile */
+                max-width: 90% !important; 
                 height: auto !important;
             }
 
@@ -377,9 +377,6 @@
                 padding: 20px;
             }
         }
-        /* ----------------------------------
-            END RESPONSIVE MEDIA QUERIES
-        ----------------------------------- */
     </style>
 </head>
 <body>
@@ -397,7 +394,7 @@
                 <a href="#features">Features</a>
                 <a href="#about">About Us</a>
                 <a href="#contact">Contact</a>
-                <a href="#order-form" class="nav-order-btn">Order Now</a>
+                <a href="https://wa.me/923001234567?text=Mai%20Flowmax%20device%20order%20karna%20chahta%20hun.%20" class="nav-order-btn" target="_blank">Order Now (WhatsApp)</a>
             </div>
         </div>
     </nav>
@@ -413,7 +410,7 @@
                 </div>
             </div>
             
-            <a href="#order-form" class="btn">Order Now & Get Started</a>
+            <a href="https://wa.me/923001234567?text=Mai%20Flowmax%20device%20order%20karna%20chahta%20hun.%20" class="btn" target="_blank">Order Now & Get Started (WhatsApp)</a>
         </div>
     </section>
 
@@ -499,7 +496,10 @@
             <p style="color: var(--text-muted);">We are here to answer your questions and assist with your orders. Contact us today!</p>
             
             <div class="contact-details">
-                <p><strong>📞 Phone:</strong> +92 300 1234567 (Dummy)</p>
+                <p>
+                    <strong>📞 Phone/WhatsApp:</strong> 
+                    <a href="https://wa.me/923001234567" target="_blank" style="color: var(--accent-teal); text-decoration: none;">+92 300 1234567</a>
+                </p>
                 <p><strong>📧 Email:</strong> info@flowmaxproducts.com (Dummy)</p>
                 <p><strong>📍 Address:</strong> Plot No. 10, Innovation Hub, Karachi, Pakistan (Dummy)</p>
             </div>
@@ -581,7 +581,7 @@
             camera.position.z = 2;
 
             // Animation loop
-            let originalAnimate = null; // Defined outside to allow redefinition
+            let originalAnimate = null; 
             function animate() {
                 requestAnimationFrame(animate);
                 logoPlane.rotation.x += 0.0005;
