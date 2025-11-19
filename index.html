@@ -17,7 +17,7 @@
             --accent-teal: #00bcd4; 
             --text-light: #f0f8ff; 
             --text-muted: #cccccc; 
-            --text-danger: #ff5757; /* For warranty exclusion */
+            --text-danger: #ff5757; 
         }
 
         body {
@@ -47,15 +47,23 @@
         /* --- Navbar --- */
         .navbar {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 5%;
+            justify-content: center;
+            padding: 0 5%;
             background-color: rgba(18, 31, 51, 0.9);
             backdrop-filter: blur(8px);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
             position: sticky;
             top: 0;
             z-index: 1000;
+        }
+        
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            max-width: 1200px;
+            width: 100%;
         }
 
         .logo {
@@ -105,7 +113,29 @@
             color: white;
             transform: translateY(-1px);
         }
+        
+        /* --- Language Switch Styling --- */
+        .language-switcher {
+            margin-left: 20px; 
+            /* Isay order button aur nav links ke darmiyan fit karne ke liye */
+        }
 
+        #lang-toggle {
+            background-color: var(--secondary-dark);
+            color: var(--text-light);
+            border: 1px solid var(--accent-teal);
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        #lang-toggle:hover {
+            background-color: var(--accent-teal);
+            color: var(--primary-dark);
+        }
+        
         .container {
             max-width: 1200px;
             margin: auto;
@@ -137,7 +167,6 @@
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
         }
         
-        /* Hero Section Button Style */
         .btn {
             display: inline-block;
             background-color: var(--accent-teal);
@@ -157,7 +186,7 @@
             color: white;
         }
         
-        /* New Section Styling - Why Install? */
+        /* Why Install? Section */
         .why-install-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -258,16 +287,37 @@
             font-weight: bold;
         }
 
-        /* About Section Flex Layout */
+        /* --- About Section FIX (Text/Image Overlap Correction) --- */
         .about-content {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 50px;
+            text-align: left;
         }
 
         .about-content > div {
             flex: 1;
         }
+        
+        .about-content .story-text {
+            flex: 2; 
+        }
+        
+        .about-content .founder-profile {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .about-image {
+             width: 150px; 
+             height: 150px; 
+             border-radius: 50%; 
+             object-fit: cover; 
+             margin-bottom: 15px; 
+             border: 3px solid var(--accent-teal);
+             box-shadow: 0 0 10px rgba(0, 188, 212, 0.5);
+        }
+
 
         /* --- Order Form Section Styling --- */
         #order-form {
@@ -363,7 +413,7 @@
         }
         
         /* ----------------------------------
-            RESPONSIVE MEDIA QUERIES
+            RESPONSIVE MEDIA QUERIES (Mobile Fixes)
         ----------------------------------- */
         @media (max-width: 768px) {
             
@@ -377,7 +427,7 @@
                 margin-bottom: 30px;
             }
             
-            /* Navbar Adjustment (Stacking logo and links) */
+            /* Navbar Adjustment */
             .navbar .container {
                 flex-direction: column;
                 align-items: flex-start;
@@ -404,6 +454,18 @@
                 margin-left: 0;
                 margin-top: 10px;
                 text-align: center;
+                width: 100%;
+            }
+            
+            /* Mobile Switch Alignment */
+            .language-switcher {
+                margin-left: 0;
+                margin-top: 10px;
+                width: 100%;
+                text-align: center;
+            }
+            #lang-toggle {
+                width: 100%;
             }
 
             /* Hero Section */
@@ -412,11 +474,12 @@
             }
 
             #hero img {
-                max-width: 90% !important; 
+                max-width: 100% !important; 
                 height: auto !important;
+                object-fit: contain;
             }
 
-            /* Features Grid (Change to single column) */
+            /* Grids */
             .why-install-grid,
             .feature-grid {
                 grid-template-columns: 1fr;
@@ -428,18 +491,27 @@
                 gap: 20px;
             }
 
-            /* About Content (Stacking text and image) */
+            /* About Content Stacking */
             .about-content {
                 flex-direction: column;
+                align-items: center;
                 text-align: center;
             }
             
+            .about-content .story-text,
+            .about-content .founder-profile {
+                flex: 1 1 100%;
+                width: 100%;
+                text-align: center; 
+            }
+
             .about-content > div {
                 margin-bottom: 30px;
+                width: 100%; 
             }
 
             .about-image {
-                max-width: 200px;
+                max-width: 150px;
             }
 
             /* Order Form Container */
@@ -454,11 +526,16 @@
     <div id="threejs-globe-bg"></div>
 
     <nav class="navbar">
-        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="container">
             <a href="#hero" class="logo">
                 <img src="https://png.pngtree.com/png-clipart/20200709/original/pngtree-abstract-tech-world-globe-logo-template-vector-illustration-png-image_4010173.jpg" alt="Flowmax Logo">
                 Flowmax
             </a>
+            
+            <div class="language-switcher">
+                <button id="lang-toggle" onclick="toggleLanguage()">English / اردو</button>
+            </div>
+            
             <div class="nav-links">
                 <a href="#hero">Home</a>
                 <a href="#details">Details</a>
@@ -469,200 +546,214 @@
             </div>
         </div>
     </nav>
-
-    <section id="hero" class="animated-section">
-        <div class="container">
-            <h1>FLOW MAX – Smart Automation for Your Water System.</h1>
-            <p style="font-size: 1.2em; max-width: 700px; margin: 0 auto 20px;">FLOW MAX is a modern, **CPU-based water pump controller** that eliminates the daily hassle of turning the motor ON and OFF, helping you save time, electricity, and water.</p>
-            
-            <div style="margin-top: 30px;">
-                <div style="background-color: rgba(255, 255, 255, 0.05); padding: 40px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); border: 1px solid rgba(0, 188, 212, 0.2);">
-                    <img src="http://googleusercontent.com/image_generation_content/0" alt="Flowmax Product Box" style="max-width: 50%; height: 50%; border-radius: 5px; filter: drop-shadow(0 0 10px rgba(0, 188, 212, 0.5));">
-                </div>
-            </div>
-            
-            <a href="https://wa.me/923007023735?text=Mai%20FLOW%20MAX%20device%20order%20karna%20chahta%20hun.%20" class="btn" target="_blank">Order Now & Get Started (WhatsApp)</a>
-        </div>
-    </section>
-
-    <section id="details" class="animated-section">
-        <div class="container">
-            <h2>✨ Why You Should Install FLOW MAX</h2>
-            <div class="why-install-grid">
-                
-                <div class="why-install-card">
-                    <h4><span class="check">✔</span> No More Motor Tension</h4>
-                    <p>No need to wait for water supply or worry about turning the motor OFF when the tank fills.</p>
-                </div>
-
-                <div class="why-install-card">
-                    <h4><span class="check">✔</span> Saves Water & Electricity</h4>
-                    <p>Overflow stops automatically — zero wastage of water or unnecessary power usage.</p>
-                </div>
-
-                <div class="why-install-card">
-                    <h4><span class="check">✔</span> Protects Your Motor</h4>
-                    <p>FLOW MAX keeps your pump safe from dry running and overworking, extending its life.</p>
-                </div>
-
-                <div class="why-install-card">
-                    <h4><span class="check">✔</span> Fully Automatic Convenience</h4>
-                    <p>Once installed, the system manages everything on its own — a perfect solution for busy families.</p>
-                </div>
-
-                <div class="why-install-card">
-                    <h4><span class="check">✔</span> Ideal for Homes & Businesses</h4>
-                    <p>Suitable for houses, apartments, schools, offices, shops, and all commercial buildings.</p>
-                </div>
-
-                <div class="why-install-card">
-                    <h4><span class="check">✔</span> Prevents Human Error</h4>
-                    <p>The system is highly reliable. Even if you forget to switch OFF the motor, FLOW MAX won’t.</p>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-
-    <section id="features" class="animated-section">
-        <div class="container">
-            <h2>Intelligent Key Features</h2>
-            <div class="feature-grid">
-                
-                <div class="feature-card">
-                    <h3>✅ Fully Automatic Operation</h3>
-                    <p>Detects water supply and automatically turns motor ON. Stops the motor when the tank becomes full. Zero manual effort required.</p>
-                </div>
-
-                <div class="feature-card">
-                    <h3>🧠 CPU-Based Smart Technology</h3>
-                    <p>Uses highly reliable CPU technology for fast and accurate water detection and consistent, reliable performance.</p>
-                </div>
-
-                <div class="feature-card">
-                    <h3>🔌 Wide Compatibility</h3>
-                    <p>Compatible with all types of pumps: Submersible, Boring, Surface, Monoblock, Open-well, and Pressure Pumps.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <h3>⚡ Load & Voltage Support</h3>
-                    <p>Supports both **Single Phase & Three Phase** connections and handles up to **40 AMP** load capacity safely.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <h3>🔁 Auto + Manual Modes</h3>
-                    <p>Automatic mode is perfect for everyday use, while the Manual mode remains readily available when needed.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <h3>🛡️ Safety & Protection</h3>
-                    <p>Prevents overflow, prevents dry run, saves electricity, and protects the long-term health of your motor.</p>
-                </div>
-
-            </div>
-        </div>
-    </section>
     
-    <section id="warranty" class="animated-section">
-        <div class="container">
-            <h2>📦 6-Month Comprehensive Warranty</h2>
-            <div class="warranty-content">
+    <main>
+
+        <section id="hero" class="animated-section">
+            <div class="container">
+                <h1>FLOW MAX – Smart Automation for Your Water System.</h1>
+                <p style="font-size: 1.2em; max-width: 700px; margin: 0 auto 20px;">FLOW MAX is a modern, CPU-based water pump controller that eliminates the daily hassle of turning the motor ON and OFF, helping you save time, electricity, and water.</p>
                 
-                <div class="warranty-box warranty-covers">
-                    <h3>✔ Warranty Covers:</h3>
-                    <ul>
-                        <li><span class="check">•</span> Software issues</li>
-                        <li><span class="check">•</span> Functional issues</li>
-                        <li><span class="check">•</span> Auto/Manual mode faults</li>
-                        <li><span class="check">•</span> Sensor-related problems (without damage)</li>
-                    </ul>
+                <div style="margin-top: 30px;">
+                    <div style="background-color: rgba(255, 255, 255, 0.05); padding: 40px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); border: 1px solid rgba(0, 188, 212, 0.2);">
+                        <img src="WhatsApp Image 2025-11-18 at 5.42.14 PM.jpeg" alt="Flowmax Product Box" style="max-width: 800px; width: 100%; height: auto; border-radius: 5px; filter: drop-shadow(0 0 10px rgba(0, 188, 212, 0.5));">
+                    </div>
                 </div>
                 
-                <div class="warranty-box warranty-excludes">
-                    <h3>❌ Warranty Does NOT Cover:</h3>
-                    <ul>
-                        <li><span class="cross">•</span> Burnt device or electrical damage</li>
-                        <li><span class="cross">•</span> Physical damage (broken casing, etc.)</li>
-                        <li><span class="cross">•</span> Wrong wiring or incorrect installation</li>
-                        <li><span class="cross">•</span> Over-voltage damage</li>
-                        <li><span class="cross">•</span> Water damage due to incorrect installation</li>
-                    </ul>
-                    <p style="font-size: 0.9em; margin-top: 20px; color: var(--text-muted);">Warranty applies only if the device is not damaged or burned.</p>
-                </div>
-
+                <a href="https://wa.me/923007023735?text=Mai%20FLOW%20MAX%20device%20order%20karna%20chahta%20hun.%20" class="btn" target="_blank">Order Now & Get Started (WhatsApp)</a>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="order-form" class="animated-section">
-        <div class="container">
-            <h2>Place Your Order Today</h2>
-            <div class="form-container">
-                <form action="max.php" method="POST">
-                    <div class="form-group">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" name="name" required placeholder="Enter your full name">
+        <section id="details" class="animated-section">
+            <div class="container">
+                <h2>✨ Why You Should Install FLOW MAX</h2>
+                <div class="why-install-grid">
+                    
+                    <div class="why-install-card">
+                        <h4><span class="check">✔</span> No More Motor Tension</h4>
+                        <p>No need to wait for water supply or worry about turning the motor OFF when the tank fills.</p>
                     </div>
-                    <div class="form-group">
-                        <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" name="phone" required placeholder="+92 3XX XXXXXXX">
+
+                    <div class="why-install-card">
+                        <h4><span class="check">✔</span> Saves Water & Electricity</h4>
+                        <p>Overflow stops automatically — zero wastage of water or unnecessary power usage.</p>
                     </div>
-                    <div class="form-group">
-                        <label for="address">Installation Address</label>
-                        <textarea id="address" name="address" rows="3" required placeholder="House No., Street, City"></textarea>
+
+                    <div class="why-install-card">
+                        <h4><span class="check">✔</span> Protects Your Motor</h4>
+                        <p>FLOW MAX keeps your pump safe from dry running and overworking, extending its life.</p>
                     </div>
-                    <div class="form-group">
-                        <label for="model">Select Flowmax Model</label>
-                        <select id="model" name="model" required>
-                            <option value="" disabled selected>Choose a Model...</option>
-                            <option value="standard">Flowmax Standard (Basic Automation)</option>
-                            <option value="pro">Flowmax Pro (App Control + Energy Monitoring)</option>
-                        </select>
+
+                    <div class="why-install-card">
+                        <h4><span class="check">✔</span> Fully Automatic Convenience</h4>
+                        <p>Once installed, the system manages everything on its own — a perfect solution for busy families.</p>
                     </div>
-                    <div class="form-group">
-                        <label for="motor-type">Motor Horsepower (HP)</label>
-                        <input type="text" id="motor-type" name="motor-type" required placeholder="e.g., 0.5 HP or 1.0 HP">
+
+                    <div class="why-install-card">
+                        <h4><span class="check">✔</span> Ideal for Homes & Businesses</h4>
+                        <p>Suitable for houses, apartments, schools, offices, shops, and all commercial buildings.</p>
                     </div>
-                    <button type="submit" class="form-submit-btn">Confirm Order</button>
-                    <p style="text-align: center; font-size: 0.9em; margin-top: 15px; color: var(--text-muted);">We will contact you within 24 hours to confirm installation details.</p>
-                </form>
-            </div>
-        </div>
-    </section>
-    
-    <section id="about" class="animated-section">
-        <div class="container">
-            <h2>Our Story: Techworld Technology</h2>
-            <div class="about-content">
-                <div>
-                    <p style="line-height: 1.7;">Flowmax was founded by **Techworld Technology** on the principle of simplicity and reliability. Our mission is to liberate homeowners from the daily worry of water management using smart, dependable technology.</p>
-                    <p style="line-height: 1.7;">This vision was pioneered by our founder, **Mr. Muhammad Younus**. He aimed to create a robust, smart solution that utilizes technology to conserve water and energy, making life easier for every user.</p>
-                    <p style="font-weight: bold; margin-top: 20px; color: var(--accent-teal);">Product of Techworld Technology</p>
-                </div>
-                <div style="text-align: center;">
-                    <img src="https://png.pngtree.com/png-clipart/20200709/original/pngtree-abstract-tech-world-globe-logo-template-vector-illustration-png-image_4010173.jpg" alt="Flowmax Vision" class="about-image">
+
+                    <div class="why-install-card">
+                        <h4><span class="check">✔</span> Prevents Human Error</h4>
+                        <p>The system is highly reliable. Even if you forget to switch OFF the motor, FLOW MAX won’t.</p>
+                    </div>
+
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="contact" class="animated-section">
-        <div class="container">
-            <h2>Get in Touch</h2>
-            <p style="color: var(--text-muted);">We are here to answer your questions and assist with your orders. Contact us today!</p>
-            
-            <div class="contact-details">
-                <p>
-                    <strong>📞 Phone/WhatsApp (Order Now):</strong> 
-                    <a href="https://wa.me/923007023735" target="_blank" style="color: var(--accent-teal); text-decoration: none;">+92 300 7023735</a>
-                </p>
-                <p><strong>📧 Email:</strong> info@flowmaxproducts.com (Dummy)</p>
-                <p><strong>📍 Address:</strong> Plot No. 10, Innovation Hub, Karachi, Pakistan (Dummy)</p>
+
+        <section id="features" class="animated-section">
+            <div class="container">
+                <h2>Intelligent Key Features</h2>
+                <div class="feature-grid">
+                    
+                    <div class="feature-card">
+                        <h3>✅ Fully Automatic Operation</h3>
+                        <p>Detects water supply and automatically turns motor ON. Stops the motor when the tank becomes full. Zero manual effort required.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3>🧠 CPU-Based Smart Technology</h3>
+                        <p>Uses highly reliable CPU technology for fast and accurate water detection and consistent, reliable performance.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3>🔌 Wide Compatibility</h3>
+                        <p>Compatible with all types of pumps: Submersible, Boring, Surface, Monoblock, Open-well, and Pressure Pumps.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>⚡ Load & Voltage Support</h3>
+                        <p>Supports both **Single Phase & Three Phase** connections and handles up to **40 AMP** load capacity safely.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>🔁 Auto + Manual Modes</h3>
+                        <p>Automatic mode is perfect for everyday use, while the Manual mode remains readily available when needed.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>🛡️ Safety & Protection</h3>
+                        <p>Prevents overflow, prevents dry run, saves electricity, and protects the long-term health of your motor.</p>
+                    </div>
+
+                </div>
             </div>
-            <p style="margin-top: 20px; font-style: italic; color: var(--text-muted);">Techworld Technology – Reliable Products for Modern Homes.</p>
-        </div>
-    </section>
+        </section>
+        
+        <section id="warranty" class="animated-section">
+            <div class="container">
+                <h2>📦 6-Month Comprehensive Warranty</h2>
+                <div class="warranty-content">
+                    
+                    <div class="warranty-box warranty-covers">
+                        <h3>✔ Warranty Covers:</h3>
+                        <ul>
+                            <li><span class="check">•</span> Software issues</li>
+                            <li><span class="check">•</span> Functional issues</li>
+                            <li><span class="check">•</span> Auto/Manual mode faults</li>
+                            <li><span class="check">•</span> Sensor-related problems (without damage)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="warranty-box warranty-excludes">
+                        <h3>❌ Warranty Does NOT Cover:</h3>
+                        <ul>
+                            <li><span class="cross">•</span> Burnt device or electrical damage</li>
+                            <li><span class="cross">•</span> Physical damage (broken casing, etc.)</li>
+                            <li><span class="cross">•</span> Wrong wiring or incorrect installation</li>
+                            <li><span class="cross">•</span> Over-voltage damage</li>
+                            <li><span class="cross">•</span> Water damage due to incorrect installation</li>
+                        </ul>
+                        <p style="font-size: 0.9em; margin-top: 20px; color: var(--text-muted);">Warranty applies only if the device is not damaged or burned.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="order-form" class="animated-section">
+            <div class="container">
+                <h2>Place Your Order Today</h2>
+                <div class="form-container">
+                    <form action="https://formsubmit.co/annasraza547@gmail.com" method="POST">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required placeholder="Enter your full name" data-original-placeholder="Enter your full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" required placeholder="+92 3XX XXXXXXX" data-original-placeholder="+92 3XX XXXXXXX">
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Installation Address</label>
+                            <textarea id="address" name="address" rows="3" required placeholder="House No., Street, City" data-original-placeholder="House No., Street, City"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="model">Select Flowmax Model</label>
+                            <select id="model" name="model" required>
+                                <option value="" disabled selected>Choose a Model...</option>
+                                <option value="standard">Flowmax Standard (Basic Automation)</option>
+                                <option value="pro">Flowmax Pro (App Control + Energy Monitoring)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="motor-type">Motor Horsepower (HP)</label>
+                            <input type="text" id="motor-type" name="motor-type" required placeholder="e.g., 0.5 HP or 1.0 HP" data-original-placeholder="e.g., 0.5 HP or 1.0 HP">
+                        </div>
+                        <button type="submit" class="form-submit-btn">Confirm Order</button>
+                        <p style="text-align: center; font-size: 0.9em; margin-top: 15px; color: var(--text-muted);">We will contact you within 24 hours to confirm installation details.</p>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <section id="about" class="animated-section">
+            <div class="container">
+                <h2>Our Story: Techworld Technology</h2>
+                <div class="about-content">
+                    
+                    <div class="story-text">
+                        <h3 style="margin-top: 0;">Pioneering Smart Water Management</h3>
+                        <p style="line-height: 1.7;">
+                            The **FLOW MAX** journey began with a simple, clear goal: to put an end to water wastage and the manual chore of operating water pumps. Founded by **Techworld Technology**, our focus is on building **CPU-based, robust automation** solutions that are reliable, durable, and universally compatible.
+                        </p>
+                        <p style="line-height: 1.7;">
+                            Our vision, spearheaded by our founder, **Mr. Muhammad Younus**, was to create a solution that not only offers **unmatched convenience** but also contributes significantly to **saving electricity and conserving our most precious resource—water**. FLOW MAX is more than a controller; it's a commitment to a smarter, stress-free household.
+                        </p>
+                        <p style="font-weight: bold; margin-top: 20px; color: var(--accent-teal);">Trusted Product of Techworld Technology — Innovation Meets Reliability.</p>
+                    </div>
+                    
+                    <div class="founder-profile">
+                        <h3 style="margin-top: 0; text-align: center;">Our Founder</h3>
+                        <img src="https://png.pngtree.com/png-clipart/20200709/original/pngtree-abstract-tech-world-globe-logo-template-vector-illustration-png-image_4010173.jpg" alt="Mr. Muhammad Younus - Founder" class="about-image">
+                        <p><strong>Mr. Muhammad Younus</strong></p>
+                        <p style="font-size: 0.9em; color: var(--text-muted);">Visionary behind Flowmax</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="animated-section">
+            <div class="container">
+                <h2>Get in Touch</h2>
+                <p style="color: var(--text-muted);">We are here to answer your questions and assist with your orders. Contact us today!</p>
+                
+                <div class="contact-details">
+                    <p>
+                        <strong>📞 Phone/WhatsApp (Order Now):</strong> 
+                        <a href="https://wa.me/923007023735" target="_blank" style="color: var(--accent-teal); text-decoration: none;">+92 300 7023735</a>
+                    </p>
+                    <p><strong>📧 Email:</strong> info@flowmaxproducts.com (Dummy)</p>
+                    <p><strong>📍 Address:</strong> Plot No. 10, Innovation Hub, Karachi, Pakistan (Dummy)</p>
+                </div>
+                <p style="margin-top: 20px; font-style: italic; color: var(--text-muted);">Techworld Technology – Reliable Products for Modern Homes.</p>
+            </div>
+        </section>
+        
+    </main>
 
     <footer>
         <div class="container">
@@ -671,6 +762,170 @@
     </footer>
 
     <script>
+        // Global variable to track the current language (English is default)
+        let currentLanguage = 'en';
+
+        // Dictionary for translations (Sirf zaroori hisson ke liye)
+        const translations = {
+            // English (Default): Urdu Translation
+            
+            // --- Navbar ---
+            "Home": "صفحہ اول",
+            "Details": "تفصیلات",
+            "Features": "خصوصیات",
+            "Warranty": "وارنٹی",
+            "Contact": "رابطہ",
+            "Order Now (WhatsApp)": "ابھی آرڈر کریں (واٹس ایپ)",
+            
+            // --- Hero Section ---
+            "FLOW MAX – Smart Automation for Your Water System.": "فلو میکس – آپ کے واٹر سسٹم کے لیے سمارٹ آٹومیشن۔",
+            "FLOW MAX is a modern, CPU-based water pump controller that eliminates the daily hassle of turning the motor ON and OFF, helping you save time, electricity, and water.": "فلو میکس ایک جدید، سی پی یو پر مبنی واٹر پمپ کنٹرولر ہے جو موٹر کو آن اور آف کرنے کی روزمرہ کی پریشانی کو ختم کرتا ہے، اور آپ کا وقت، بجلی، اور پانی بچاتا ہے۔",
+            "Order Now & Get Started (WhatsApp)": "ابھی آرڈر کریں اور استعمال شروع کریں (واٹس ایپ)",
+
+            // --- Why Install? Section (Headings only) ---
+            "Why You Should Install FLOW MAX": "آپ کو فلو میکس کیوں انسٹال کرنا چاہیے",
+            "No More Motor Tension": "موٹر کی کوئی مزید ٹینشن نہیں",
+            "Saves Water & Electricity": "پانی اور بجلی بچاتا ہے",
+            "Protects Your Motor": "آپ کی موٹر کو محفوظ رکھتا ہے",
+            "Fully Automatic Convenience": "مکمل خودکار سہولت",
+            "Ideal for Homes & Businesses": "گھروں اور کاروبار کے لیے بہترین",
+            "Prevents Human Error": "انسانی غلطی سے بچاتا ہے",
+            
+            // --- Feature Section (Headings only) ---
+            "Intelligent Key Features": "ذہین اہم خصوصیات",
+            "Fully Automatic Operation": "مکمل خودکار آپریشن",
+            "CPU-Based Smart Technology": "سی پی یو پر مبنی سمارٹ ٹیکنالوجی",
+            "Wide Compatibility": "وسیع مطابقت",
+            "Load & Voltage Support": "لوڈ اور وولٹیج سپورٹ",
+            "Auto + Manual Modes": "آٹو + مینول موڈز",
+            "Safety & Protection": "حفاظت اور تحفظ",
+            
+            // --- Warranty Section (Headings only) ---
+            "6-Month Comprehensive Warranty": "6 ماہ کی جامع وارنٹی",
+            "Warranty Covers:": "وارنٹی میں شامل:",
+            "Warranty Does NOT Cover:": "وارنٹی میں شامل نہیں:",
+            "Software issues": "سافٹ ویئر کے مسائل",
+            "Functional issues": "فنکشنل مسائل",
+            "Auto/Manual mode faults": "آٹو/مینول موڈ میں خرابیاں",
+            "Sensor-related problems (without damage)": "سینسر سے متعلق مسائل (بغیر نقصان کے)",
+            "Burnt device or electrical damage": "جلا ہوا ڈیوائس یا برقی نقصان",
+            "Physical damage (broken casing, etc.)": "جسمانی نقصان (کیسنگ ٹوٹنا وغیرہ)",
+            "Wrong wiring or incorrect installation": "غلط وائرنگ یا غلط انسٹالیشن",
+            "Over-voltage damage": "اوور وولٹیج کا نقصان",
+            "Water damage due to incorrect installation": "غلط انسٹالیشن کی وجہ سے پانی کا نقصان",
+            "Warranty applies only if the device is not damaged or burned.": "وارنٹی صرف اس صورت میں لاگو ہوتی ہے جب ڈیوائس کو نقصان نہ پہنچا ہو یا جلا نہ ہو۔",
+
+            // --- Order Form Section ---
+            "Place Your Order Today": "آج ہی اپنا آرڈر بک کریں",
+            "Full Name": "پورا نام",
+            "Phone Number": "فون نمبر",
+            "Installation Address": "انسٹالیشن کا پتہ",
+            "Select Flowmax Model": "فلو میکس ماڈل منتخب کریں",
+            "Choose a Model...": "ایک ماڈل منتخب کریں...",
+            "Flowmax Standard (Basic Automation)": "فلو میکس سٹینڈرڈ (بنیادی آٹومیشن)",
+            "Flowmax Pro (App Control + Energy Monitoring)": "فلو میکس پرو (ایپ کنٹرول + توانائی مانیٹرنگ)",
+            "Motor Horsepower (HP)": "موٹر ہارس پاور (HP)",
+            "Confirm Order": "آرڈر کی تصدیق کریں",
+            "We will contact you within 24 hours to confirm installation details.": "ہم انسٹالیشن کی تفصیلات کی تصدیق کے لیے 24 گھنٹے کے اندر آپ سے رابطہ کریں گے۔",
+
+            // --- Placeholder Translations ---
+            "Enter your full name": "اپنا پورا نام درج کریں",
+            "House No., Street, City": "مکان نمبر، گلی، شہر",
+            "e.g., 0.5 HP or 1.0 HP": "مثلاً، 0.5 HP یا 1.0 HP",
+            
+            // --- About Section (Headings and Key lines) ---
+            "Our Story: Techworld Technology": "ہماری کہانی: ٹیک ورلڈ ٹیکنالوجی",
+            "Pioneering Smart Water Management": "سمارٹ واٹر مینجمنٹ کی بنیاد",
+            "Our Founder": "ہمارے بانی",
+            "Visionary behind Flowmax": "فلو میکس کے پیچھے بصیرت",
+            "Trusted Product of Techworld Technology — Innovation Meets Reliability.": "ٹیک ورلڈ ٹیکنالوجی کا قابل اعتماد پروڈکٹ — جدت اور بھروسہ۔",
+
+            // --- Contact Section ---
+            "Get in Touch": "رابطہ کریں",
+            "We are here to answer your questions and assist with your orders. Contact us today!": "ہم آپ کے سوالات کا جواب دینے اور آپ کے آرڈرز میں مدد کرنے کے لیے حاضر ہیں۔ آج ہی ہم سے رابطہ کریں!",
+            "Phone/WhatsApp (Order Now):": "فون/واٹس ایپ (ابھی آرڈر کریں):",
+            "Email:": "ای میل:",
+            "Address:": "پتہ:",
+            "Techworld Technology – Reliable Products for Modern Homes.": "ٹیک ورلڈ ٹیکنالوجی – جدید گھروں کے لیے قابل اعتماد مصنوعات۔",
+
+            // --- General Text Translations ---
+            "No need to wait for water supply or worry about turning the motor OFF when the tank fills.": "پانی کی سپلائی کا انتظار کرنے یا ٹینکی بھرنے پر موٹر بند کرنے کی فکر کرنے کی ضرورت نہیں۔",
+            "Overflow stops automatically — zero wastage of water or unnecessary power usage.": "اوور فلو خود بخود رک جاتا ہے — پانی کا ضیاع یا غیر ضروری بجلی کا استعمال صفر۔",
+            "FLOW MAX keeps your pump safe from dry running and overworking, extending its life.": "فلو میکس آپ کے پمپ کو خشک چلنے اور زیادہ کام کرنے سے محفوظ رکھتا ہے، اس کی عمر بڑھاتا ہے۔",
+            "Once installed, the system manages everything on its own — a perfect solution for busy families.": "ایک بار انسٹال ہونے کے بعد، یہ نظام سب کچھ خود ہی سنبھالتا ہے — مصروف خاندانوں کے لیے ایک بہترین حل۔",
+            "Suitable for houses, apartments, schools, offices, shops, and all commercial buildings.": "مکانات، اپارٹمنٹس، اسکولوں، دفاتر، دکانوں، اور تمام تجارتی عمارتوں کے لیے موزوں ہے۔",
+            "The system is highly reliable. Even if you forget to switch OFF the motor, FLOW MAX won’t.": "یہ نظام انتہائی قابل اعتماد ہے۔ یہاں تک کہ اگر آپ موٹر بند کرنا بھول جائیں، تو فلو میکس نہیں بھولے گا۔",
+            "Detects water supply and automatically turns motor ON. Stops the motor when the tank becomes full. Zero manual effort required.": "پانی کی سپلائی کا پتہ لگاتا ہے اور خود بخود موٹر آن کر دیتا ہے۔ ٹینکی بھرنے پر موٹر بند کر دیتا ہے۔ کسی دستی کوشش کی ضرورت نہیں۔",
+            "Uses highly reliable CPU technology for fast and accurate water detection and consistent, reliable performance.": "تیز اور درست پانی کا پتہ لگانے اور مستقل، قابل اعتماد کارکردگی کے لیے انتہائی قابل اعتماد سی پی یو ٹیکنالوجی کا استعمال کرتا ہے۔",
+            "Compatible with all types of pumps: Submersible, Boring, Surface, Monoblock, Open-well, and Pressure Pumps.": "تمام قسم کے پمپوں کے ساتھ مطابقت رکھتا ہے: سبمرسیبل، بورنگ، سرفیس، مونو بلاک، اوپن ویل، اور پریشر پمپس۔",
+            "Supports both **Single Phase & Three Phase** connections and handles up to **40 AMP** load capacity safely.": "سنگل فیز اور تھری فیز دونوں کنکشنز کو سپورٹ کرتا ہے اور 40 ایم پیئر تک لوڈ کی صلاحیت کو محفوظ طریقے سے سنبھالتا ہے۔",
+            "Automatic mode is perfect for everyday use, while the Manual mode remains readily available when needed.": "خودکار موڈ روزمرہ کے استعمال کے لیے بہترین ہے، جبکہ دستی موڈ ضرورت پڑنے پر آسانی سے دستیاب رہتا ہے۔",
+            "Prevents overflow, prevents dry run, saves electricity, and protects the long-term health of your motor.": "اوور فلو سے بچاتا ہے، خشک چلنے سے روکتا ہے، بجلی بچاتا ہے، اور آپ کی موٹر کی طویل مدتی صحت کو محفوظ رکھتا ہے۔",
+            // --- About body text ---
+            "The **FLOW MAX** journey began with a simple, clear goal: to put an end to water wastage and the manual chore of operating water pumps. Founded by **Techworld Technology**, our focus is on building **CPU-based, robust automation** solutions that are reliable, durable, and universally compatible.": "فلو میکس کا سفر ایک سادہ، واضح مقصد کے ساتھ شروع ہوا: پانی کے ضیاع اور پانی کے پمپوں کو چلانے کے دستی کام کو ختم کرنا۔ **ٹیک ورلڈ ٹیکنالوجی** کی طرف سے قائم کیا گیا، ہمارا فوکس **سی پی یو پر مبنی، مضبوط آٹومیشن** حل تیار کرنے پر ہے جو قابل اعتماد، پائیدار، اور عالمی سطح پر ہم آہنگ ہوں۔",
+            "Our vision, spearheaded by our founder, **Mr. Muhammad Younus**, was to create a solution that not only offers **unmatched convenience** but also contributes significantly to **saving electricity and conserving our most precious resource—water**. FLOW MAX is more than a controller; it's a commitment to a smarter, stress-free household.": "ہمارا وژن، جو ہمارے بانی، **جناب محمد یونس** کی قیادت میں ہے، ایک ایسا حل تیار کرنا تھا جو نہ صرف **بے مثال سہولت** فراہم کرے بلکہ **بجلی کی بچت اور ہمارے سب سے قیمتی وسائل — پانی** کے تحفظ میں بھی اہم کردار ادا کرے۔ فلو میکس صرف ایک کنٹرولر نہیں ہے؛ یہ ایک زیادہ سمارٹ، تناؤ سے پاک گھرانے کا عزم ہے۔"
+        };
+
+        // Main function to toggle the language
+        function toggleLanguage() {
+            const isEnglish = currentLanguage === 'en';
+            const nextLanguage = isEnglish ? 'ur' : 'en';
+
+            // Elements to target for innerText/content translation
+            const contentElements = document.querySelectorAll(
+                '.navbar a:not(.logo), h1, h2, h3, h4, p, label, button, option'
+            );
+
+            contentElements.forEach(element => {
+                let originalText = element.getAttribute('data-original-text');
+
+                // 1. Original Text Save (First Run)
+                if (!originalText) {
+                    // Remove asterisks/special characters for clean text comparison
+                    originalText = element.innerText.replace(/\s\*\*/g, '').replace(/\*\*\s/g, '').replace(/\*/g, '').trim();
+                    element.setAttribute('data-original-text', originalText);
+                }
+                
+                // 2. Content Translation
+                if (translations[originalText]) {
+                    if (isEnglish) {
+                        element.innerText = translations[originalText];
+                        // Apply right-to-left alignment for Urdu paragraphs
+                        if (element.tagName === 'P' || element.tagName === 'LABEL') {
+                            element.style.textAlign = 'right';
+                        }
+                    } else {
+                        element.innerText = originalText;
+                         // Reset alignment to default (left)
+                        if (element.tagName === 'P' || element.tagName === 'LABEL') {
+                            element.style.textAlign = '';
+                        }
+                    }
+                }
+            });
+            
+            // 3. Placeholder Translation (Inputs/Textareas)
+            const inputElements = document.querySelectorAll('input[placeholder], textarea[placeholder]');
+            inputElements.forEach(input => {
+                const originalPlaceholder = input.getAttribute('data-original-placeholder');
+                
+                if (originalPlaceholder && translations[originalPlaceholder]) {
+                    if (isEnglish) {
+                        input.placeholder = translations[originalPlaceholder];
+                    } else {
+                        input.placeholder = originalPlaceholder;
+                    }
+                }
+            });
+
+            // 4. Update the current language state
+            currentLanguage = nextLanguage;
+            
+            // 5. Update the button text
+            document.getElementById('lang-toggle').innerText = (nextLanguage === 'ur' ? "English / EN" : "English / اردو");
+        }
+
+
         // Intersection Observer for section animations
         document.addEventListener('DOMContentLoaded', () => {
             const sections = document.querySelectorAll('.animated-section');
@@ -698,7 +953,7 @@
         // --- Three.js for Animated Logo Background ---
         function initThreeJSLogoBackground() {
             const container = document.getElementById('threejs-globe-bg');
-            if (!container) return;
+            if (!container || typeof THREE === 'undefined') return;
 
             const scene = new THREE.Scene();
             const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -737,33 +992,7 @@
             logoPlane.scale.set(0.8, 0.8, 0.8);
             camera.position.z = 2;
 
-            // Animation loop
-            let originalAnimate = null; 
-            function animate() {
-                requestAnimationFrame(animate);
-                logoPlane.rotation.x += 0.0005;
-                logoPlane.rotation.y += 0.0008;
-
-                const time = Date.now() * 0.0005;
-                const bobbing = Math.sin(time) * 0.3;
-                const drifting = Math.cos(time * 0.7) * 0.4;
-                
-                logoPlane.position.y = bobbing;
-                logoPlane.position.x = drifting;
-
-                renderer.render(scene, camera);
-            }
-            
-            originalAnimate = animate;
-
-            // Handle window resizing
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            });
-
-             // Add glowing particles for depth
+            // Add glowing particles for depth
             const particlesGeometry = new THREE.BufferGeometry();
             const particlesCount = 300;
             const posArray = new Float32Array(particlesCount * 3);
@@ -785,8 +1014,8 @@
             const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
             scene.add(particlesMesh);
 
-            // Redefine animate to include particles rotation
-            animate = () => {
+            // Animation loop
+            function animate() {
                 requestAnimationFrame(animate);
                 logoPlane.rotation.x += 0.0005;
                 logoPlane.rotation.y += 0.0008;
@@ -802,7 +1031,14 @@
                 particlesMesh.rotation.y += 0.0001;
 
                 renderer.render(scene, camera);
-            };
+            }
+            
+            // Handle window resizing
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
 
             animate();
         }
