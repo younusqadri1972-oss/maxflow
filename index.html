@@ -98,6 +98,15 @@
             color: var(--accent-teal);
         }
 
+        /* Styling for the new "Order Now" link (same as other links, but highlighted on hover) */
+        .nav-links a[href="#order-form"] {
+            color: var(--text-light);
+        }
+        .nav-links a[href="#order-form"]:hover {
+            color: #fff;
+            text-shadow: 0 0 5px var(--accent-teal);
+        }
+
         .nav-order-btn {
             background-color: var(--accent-teal);
             color: var(--primary-dark);
@@ -117,7 +126,6 @@
         /* --- Language Switch Styling --- */
         .language-switcher {
             margin-left: 20px; 
-            /* Isay order button aur nav links ke darmiyan fit karne ke liye */
         }
 
         #lang-toggle {
@@ -542,6 +550,9 @@
                 <a href="#features">Features</a>
                 <a href="#warranty">Warranty</a>
                 <a href="#contact">Contact</a>
+                
+                <a href="#order-form">Order Now</a> 
+                
                 <a href="https://wa.me/923007023735?text=Mai%20FLOW%20MAX%20device%20order%20karna%20chahta%20hun.%20" class="nav-order-btn" target="_blank">Order Now (WhatsApp)</a>
             </div>
         </div>
@@ -678,7 +689,7 @@
             <div class="container">
                 <h2>Place Your Order Today</h2>
                 <div class="form-container">
-                    <form action="https://formsubmit.co/annasraza547@gmail.com" method="POST">
+                    <form id="whatsappOrderForm" onsubmit="handleFormSubmit(event)">
                         <div class="form-group">
                             <label for="name">Full Name</label>
                             <input type="text" id="name" name="name" required placeholder="Enter your full name" data-original-placeholder="Enter your full name">
@@ -695,8 +706,8 @@
                             <label for="model">Select Flowmax Model</label>
                             <select id="model" name="model" required>
                                 <option value="" disabled selected>Choose a Model...</option>
-                                <option value="standard">Flowmax Standard (Basic Automation)</option>
-                                <option value="pro">Flowmax Pro (App Control + Energy Monitoring)</option>
+                                <option value="Standard">Flowmax Standard (Basic Automation)</option>
+                                <option value="Pro">Flowmax Pro (App Control + Energy Monitoring)</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -704,7 +715,7 @@
                             <input type="text" id="motor-type" name="motor-type" required placeholder="e.g., 0.5 HP or 1.0 HP" data-original-placeholder="e.g., 0.5 HP or 1.0 HP">
                         </div>
                         <button type="submit" class="form-submit-btn">Confirm Order</button>
-                        <p style="text-align: center; font-size: 0.9em; margin-top: 15px; color: var(--text-muted);">We will contact you within 24 hours to confirm installation details.</p>
+                        <p style="text-align: center; font-size: 0.9em; margin-top: 15px; color: var(--text-muted);">After clicking, you will be directed to WhatsApp with your order details.</p>
                     </form>
                 </div>
             </div>
@@ -746,8 +757,8 @@
                         <strong>📞 Phone/WhatsApp (Order Now):</strong> 
                         <a href="https://wa.me/923007023735" target="_blank" style="color: var(--accent-teal); text-decoration: none;">+92 300 7023735</a>
                     </p>
-                    <p><strong>📧 Email:</strong> info@flowmaxproducts.com (Dummy)</p>
-                    <p><strong>📍 Address:</strong> Plot No. 10, Innovation Hub, Karachi, Pakistan (Dummy)</p>
+                    <p><strong>📧 Email:</strong> techworld4009@gmail.com</p>
+                    <p><strong>📍 Address:</strong> Karimabad block 4, Karachi, Pakistan</p>
                 </div>
                 <p style="margin-top: 20px; font-style: italic; color: var(--text-muted);">Techworld Technology – Reliable Products for Modern Homes.</p>
             </div>
@@ -762,10 +773,10 @@
     </footer>
 
     <script>
-        // Global variable to track the current language (English is default)
+        // --- Language Toggle Logic ---
         let currentLanguage = 'en';
 
-        // Dictionary for translations (Sirf zaroori hisson ke liye)
+        // Dictionary for translations (Added 'Order Now' for translation)
         const translations = {
             // English (Default): Urdu Translation
             
@@ -775,6 +786,7 @@
             "Features": "خصوصیات",
             "Warranty": "وارنٹی",
             "Contact": "رابطہ",
+            "Order Now": "ابھی آرڈر کریں", 
             "Order Now (WhatsApp)": "ابھی آرڈر کریں (واٹس ایپ)",
             
             // --- Hero Section ---
@@ -861,17 +873,15 @@
             "Supports both **Single Phase & Three Phase** connections and handles up to **40 AMP** load capacity safely.": "سنگل فیز اور تھری فیز دونوں کنکشنز کو سپورٹ کرتا ہے اور 40 ایم پیئر تک لوڈ کی صلاحیت کو محفوظ طریقے سے سنبھالتا ہے۔",
             "Automatic mode is perfect for everyday use, while the Manual mode remains readily available when needed.": "خودکار موڈ روزمرہ کے استعمال کے لیے بہترین ہے، جبکہ دستی موڈ ضرورت پڑنے پر آسانی سے دستیاب رہتا ہے۔",
             "Prevents overflow, prevents dry run, saves electricity, and protects the long-term health of your motor.": "اوور فلو سے بچاتا ہے، خشک چلنے سے روکتا ہے، بجلی بچاتا ہے، اور آپ کی موٹر کی طویل مدتی صحت کو محفوظ رکھتا ہے۔",
-            // --- About body text ---
             "The **FLOW MAX** journey began with a simple, clear goal: to put an end to water wastage and the manual chore of operating water pumps. Founded by **Techworld Technology**, our focus is on building **CPU-based, robust automation** solutions that are reliable, durable, and universally compatible.": "فلو میکس کا سفر ایک سادہ، واضح مقصد کے ساتھ شروع ہوا: پانی کے ضیاع اور پانی کے پمپوں کو چلانے کے دستی کام کو ختم کرنا۔ **ٹیک ورلڈ ٹیکنالوجی** کی طرف سے قائم کیا گیا، ہمارا فوکس **سی پی یو پر مبنی، مضبوط آٹومیشن** حل تیار کرنے پر ہے جو قابل اعتماد، پائیدار، اور عالمی سطح پر ہم آہنگ ہوں۔",
-            "Our vision, spearheaded by our founder, **Mr. Muhammad Younus**, was to create a solution that not only offers **unmatched convenience** but also contributes significantly to **saving electricity and conserving our most precious resource—water**. FLOW MAX is more than a controller; it's a commitment to a smarter, stress-free household.": "ہمارا وژن، جو ہمارے بانی، **جناب محمد یونس** کی قیادت میں ہے، ایک ایسا حل تیار کرنا تھا جو نہ صرف **بے مثال سہولت** فراہم کرے بلکہ **بجلی کی بچت اور ہمارے سب سے قیمتی وسائل — پانی** کے تحفظ میں بھی اہم کردار ادا کرے۔ فلو میکس صرف ایک کنٹرولر نہیں ہے؛ یہ ایک زیادہ سمارٹ، تناؤ سے پاک گھرانے کا عزم ہے۔"
+            "Our vision, spearheaded by our founder, **Mr. Muhammad Younus**, was to create a solution that not only offers **unmatched convenience** but also contributes significantly to **saving electricity and conserving our most precious resource—water**. FLOW MAX is more than a controller; it's a commitment to a smarter, stress-free household.": "ہمارا وژن, جو ہمارے بانی, **جناب محمد یونس** کی قیادت میں ہے, ایک ایسا حل تیار کرنا تھا جو نہ صرف **بے مثال سہولت** فراہم کرے بلکہ **بجلی کی بچت اور ہمارے سب سے قیمتی وسائل — پانی** کے تحفظ میں بھی اہم کردار ادا کرے۔ فلو میکس صرف ایک کنٹرولر نہیں ہے؛ یہ ایک زیادہ سمارٹ، تناؤ سے پاک گھرانے کا عزم ہے۔",
+            "After clicking, you will be directed to WhatsApp with your order details.": "کلک کرنے کے بعد، آپ اپنے آرڈر کی تفصیلات کے ساتھ واٹس ایپ پر ری ڈائریکٹ ہو جائیں گے۔"
         };
-
-        // Main function to toggle the language
+        
         function toggleLanguage() {
             const isEnglish = currentLanguage === 'en';
             const nextLanguage = isEnglish ? 'ur' : 'en';
 
-            // Elements to target for innerText/content translation
             const contentElements = document.querySelectorAll(
                 '.navbar a:not(.logo), h1, h2, h3, h4, p, label, button, option'
             );
@@ -879,32 +889,26 @@
             contentElements.forEach(element => {
                 let originalText = element.getAttribute('data-original-text');
 
-                // 1. Original Text Save (First Run)
                 if (!originalText) {
-                    // Remove asterisks/special characters for clean text comparison
                     originalText = element.innerText.replace(/\s\*\*/g, '').replace(/\*\*\s/g, '').replace(/\*/g, '').trim();
                     element.setAttribute('data-original-text', originalText);
                 }
                 
-                // 2. Content Translation
                 if (translations[originalText]) {
                     if (isEnglish) {
                         element.innerText = translations[originalText];
-                        // Apply right-to-left alignment for Urdu paragraphs
-                        if (element.tagName === 'P' || element.tagName === 'LABEL') {
+                        if (element.tagName === 'P' || element.tagName === 'LABEL' || element.tagName === 'H1' || element.tagName === 'H2' || element.tagName === 'H3' || element.tagName === 'H4') {
                             element.style.textAlign = 'right';
                         }
                     } else {
                         element.innerText = originalText;
-                         // Reset alignment to default (left)
-                        if (element.tagName === 'P' || element.tagName === 'LABEL') {
+                        if (element.tagName === 'P' || element.tagName === 'LABEL' || element.tagName === 'H1' || element.tagName === 'H2' || element.tagName === 'H3' || element.tagName === 'H4') {
                             element.style.textAlign = '';
                         }
                     }
                 }
             });
             
-            // 3. Placeholder Translation (Inputs/Textareas)
             const inputElements = document.querySelectorAll('input[placeholder], textarea[placeholder]');
             inputElements.forEach(input => {
                 const originalPlaceholder = input.getAttribute('data-original-placeholder');
@@ -918,15 +922,47 @@
                 }
             });
 
-            // 4. Update the current language state
             currentLanguage = nextLanguage;
-            
-            // 5. Update the button text
             document.getElementById('lang-toggle').innerText = (nextLanguage === 'ur' ? "English / EN" : "English / اردو");
         }
+        
+        // --- WhatsApp Form Submission Handler ---
+        function handleFormSubmit(event) {
+            event.preventDefault(); // Stop the form from submitting normally
+            
+            const form = document.getElementById('whatsappOrderForm');
+            const data = {
+                name: form.name.value,
+                phone: form.phone.value,
+                address: form.address.value,
+                model: form.model.options[form.model.selectedIndex].text,
+                motorType: form['motor-type'].value
+            };
+            
+            // Your WhatsApp number (Pakistan format)
+            const whatsappNumber = "923007023735"; 
 
+            // Create the pre-filled message
+            const message = 
+                `*--- 🚀 FLOW MAX Order Details ---*\n\n` +
+                `*Name:* ${data.name}\n` +
+                `*Phone:* ${data.phone}\n` +
+                `*Model:* ${data.model}\n` +
+                `*Motor HP:* ${data.motorType}\n` +
+                `*Address:* ${data.address}\n\n` +
+                `_Please confirm this order, and send the payment details._`;
+            
+            // Encode the message for the URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Construct the final WhatsApp URL
+            const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+            
+            // Open WhatsApp in a new tab/window
+            window.open(whatsappURL, '_blank');
+        }
 
-        // Intersection Observer for section animations
+        // --- Intersection Observer for section animations ---
         document.addEventListener('DOMContentLoaded', () => {
             const sections = document.querySelectorAll('.animated-section');
 
@@ -962,7 +998,6 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
             container.appendChild(renderer.domElement);
 
-            // Lighting (High Contrast)
             const ambientLight = new THREE.AmbientLight(0x444444, 0.8);
             scene.add(ambientLight);
             const pointLight = new THREE.PointLight(0xffffff, 2); 
@@ -972,11 +1007,9 @@
             pointLight2.position.set(-5, -5, 5);
             scene.add(pointLight2);
 
-            // Load the logo texture
             const textureLoader = new THREE.TextureLoader();
             const logoTexture = textureLoader.load('https://png.pngtree.com/png-clipart/20200709/original/pngtree-abstract-tech-world-globe-logo-template-vector-illustration-png-image_4010173.jpg');
 
-            // Create a plane geometry to put the logo on
             const planeGeometry = new THREE.PlaneGeometry(3.5, 3.5);
             const planeMaterial = new THREE.MeshStandardMaterial({
                 map: logoTexture,
@@ -992,7 +1025,6 @@
             logoPlane.scale.set(0.8, 0.8, 0.8);
             camera.position.z = 2;
 
-            // Add glowing particles for depth
             const particlesGeometry = new THREE.BufferGeometry();
             const particlesCount = 300;
             const posArray = new Float32Array(particlesCount * 3);
@@ -1014,7 +1046,6 @@
             const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
             scene.add(particlesMesh);
 
-            // Animation loop
             function animate() {
                 requestAnimationFrame(animate);
                 logoPlane.rotation.x += 0.0005;
@@ -1033,7 +1064,6 @@
                 renderer.render(scene, camera);
             }
             
-            // Handle window resizing
             window.addEventListener('resize', () => {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
