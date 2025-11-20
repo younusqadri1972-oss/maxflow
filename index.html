@@ -49,7 +49,7 @@
             display: flex;
             justify-content: center;
             padding: 0 5%;
-            background-color: rgba(18, 31, 51, 0.9);
+            background-color: rgba(18, 31, 51, 0.95); /* Thoda dark kiya taake menu clear dikhe */
             backdrop-filter: blur(8px);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
             position: sticky;
@@ -64,6 +64,7 @@
             padding: 15px 0;
             max-width: 1200px;
             width: 100%;
+            flex-wrap: wrap; /* Allows content to wrap on mobile */
         }
 
         .logo {
@@ -79,6 +80,29 @@
             height: 30px;
             margin-right: 10px;
             filter: drop-shadow(0 0 5px var(--accent-teal)); 
+        }
+
+        /* --- Hamburger Menu Icon (Hidden on Desktop) --- */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: var(--accent-teal);
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        /* Navigation Links & Language Container */
+        .nav-menu-wrapper {
+            display: flex;
+            align-items: center;
         }
 
         .nav-links {
@@ -98,7 +122,6 @@
             color: var(--accent-teal);
         }
 
-        /* Styling for the new "Order Now" link (same as other links, but highlighted on hover) */
         .nav-links a[href="#order-form"] {
             color: var(--text-light);
         }
@@ -435,46 +458,73 @@
                 margin-bottom: 30px;
             }
             
-            /* Navbar Adjustment */
-            .navbar .container {
-                flex-direction: column;
-                align-items: flex-start;
-            }
+            /* --- NAVBAR DROPDOWN FIX --- */
             
-            .logo {
-                margin-bottom: 15px;
+            .navbar .container {
+                padding: 15px 5%;
+            }
+
+            /* Show Hamburger */
+            .hamburger {
+                display: flex;
+            }
+
+            /* Main Menu Wrapper (Links + Lang Switch) */
+            .nav-menu-wrapper {
+                position: absolute;
+                top: 100%; /* Bottom of navbar */
+                left: 0;
+                width: 100%;
+                background-color: rgba(18, 31, 51, 0.98);
+                flex-direction: column;
+                align-items: center;
+                border-bottom: 2px solid var(--accent-teal);
+                box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+                
+                /* Hidden Logic */
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.4s ease-out;
+            }
+
+            /* Class to show menu */
+            .nav-menu-wrapper.active {
+                max-height: 600px; /* Enough height to show content */
+                padding-bottom: 20px;
             }
 
             .nav-links {
                 flex-direction: column;
-                align-items: flex-start;
-                width: 100%; 
+                width: 100%;
+                margin-top: 20px;
             }
 
             .nav-links a {
-                margin: 5px 0 5px 0; 
-                padding: 5px 0;
+                margin: 10px 0;
                 width: 100%;
-                text-align: left;
-            }
-            
-            .nav-order-btn {
-                margin-left: 0;
-                margin-top: 10px;
                 text-align: center;
-                width: 100%;
+                padding: 10px 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             }
             
-            /* Mobile Switch Alignment */
+            /* Order Button adjustment inside menu */
+            .nav-order-btn {
+                margin: 20px 0 0 0;
+                width: 80%;
+                text-align: center;
+            }
+            
+            /* Language switcher adjustment inside menu */
             .language-switcher {
                 margin-left: 0;
-                margin-top: 10px;
+                margin-top: 20px;
                 width: 100%;
-                text-align: center;
+                display: flex;
+                justify-content: center;
             }
-            #lang-toggle {
-                width: 100%;
-            }
+
+            /* --- END NAVBAR FIX --- */
+
 
             /* Hero Section */
             #hero {
@@ -540,20 +590,28 @@
                 Flowmax
             </a>
             
-            <div class="language-switcher">
-                <button id="lang-toggle" onclick="toggleLanguage()">English / اردو</button>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
             
-            <div class="nav-links">
-                <a href="#hero">Home</a>
-                <a href="#details">Details</a>
-                <a href="#features">Features</a>
-                <a href="#warranty">Warranty</a>
-                <a href="#contact">Contact</a>
+            <div class="nav-menu-wrapper" id="navMenu">
+                <div class="language-switcher">
+                    <button id="lang-toggle" onclick="toggleLanguage()">English / اردو</button>
+                </div>
                 
-                <a href="#order-form">Order Now</a> 
-                
-                <a href="https://wa.me/923007023735?text=Mai%20FLOW%20MAX%20device%20order%20karna%20chahta%20hun.%20" class="nav-order-btn" target="_blank">Order Now (WhatsApp)</a>
+                <div class="nav-links">
+                    <a href="#hero" onclick="closeMenu()">Home</a>
+                    <a href="#details" onclick="closeMenu()">Details</a>
+                    <a href="#features" onclick="closeMenu()">Features</a>
+                    <a href="#warranty" onclick="closeMenu()">Warranty</a>
+                    <a href="#contact" onclick="closeMenu()">Contact</a>
+                    
+                    <a href="#order-form" onclick="closeMenu()">Order Now</a> 
+                    
+                    <a href="https://wa.me/923007023735?text=Mai%20FLOW%20MAX%20device%20order%20karna%20chahta%20hun.%20" class="nav-order-btn" target="_blank" onclick="closeMenu()">Order Now (WhatsApp)</a>
+                </div>
             </div>
         </div>
     </nav>
@@ -689,10 +747,9 @@
             <div class="container">
                 <h2>Place Your Order Today</h2>
                 <div class="form-container">
-                    <form action="https://formsubmit.co/your@email.com" method="POST" />
+                    <form action="https://formsubmit.co/techworld4009@gmail.com" method="POST">
 
-
-                     <div class="form-group">
+                        <div class="form-group">
                             <label for="name">Full Name</label>
                             <input type="text" id="name" name="name" required placeholder="Enter your full name" data-original-placeholder="Enter your full name">
                         </div>
@@ -717,7 +774,7 @@
                             <input type="text" id="motor-type" name="motor-type" required placeholder="e.g., 0.5 HP or 1.0 HP" data-original-placeholder="e.g., 0.5 HP or 1.0 HP">
                         </div>
                         <button type="submit" class="form-submit-btn">Confirm Order</button>
-                        <p style="text-align: center; font-size: 0.9em; margin-top: 15px; color: var(--text-muted);">After clicking, you will be directed to WhatsApp with your order details.</p>
+                        <p style="text-align: center; font-size: 0.9em; margin-top: 15px; color: var(--text-muted);">Your order will be processed internally upon submission.</p>
                     </form>
                 </div>
             </div>
@@ -759,8 +816,8 @@
                         <strong>📞 Phone/WhatsApp (Order Now):</strong> 
                         <a href="https://wa.me/923007023735" target="_blank" style="color: var(--accent-teal); text-decoration: none;">+92 300 7023735</a>
                     </p>
-                    <p><strong>📧 Email:</strong> techworld4009@gmail.com</p>
-                    <p><strong>📍 Address:</strong> Karimabad block 4, Karachi, Pakistan</p>
+                    <p><strong>📧 Email:</strong> info@flowmaxproducts.com (Dummy)</p>
+                    <p><strong>📍 Address:</strong> Plot No. 10, Innovation Hub, Karachi, Pakistan (Dummy)</p>
                 </div>
                 <p style="margin-top: 20px; font-style: italic; color: var(--text-muted);">Techworld Technology – Reliable Products for Modern Homes.</p>
             </div>
@@ -775,6 +832,20 @@
     </footer>
 
     <script>
+        // --- NAVBAR TOGGLE LOGIC (NEW) ---
+        function toggleMenu() {
+            const menu = document.getElementById('navMenu');
+            menu.classList.toggle('active');
+        }
+        
+        // Close menu when a link is clicked (NEW)
+        function closeMenu() {
+            const menu = document.getElementById('navMenu');
+            if(menu.classList.contains('active')) {
+                menu.classList.remove('active');
+            }
+        }
+
         // --- Language Toggle Logic ---
         let currentLanguage = 'en';
 
@@ -840,7 +911,7 @@
             "Flowmax Pro (App Control + Energy Monitoring)": "فلو میکس پرو (ایپ کنٹرول + توانائی مانیٹرنگ)",
             "Motor Horsepower (HP)": "موٹر ہارس پاور (HP)",
             "Confirm Order": "آرڈر کی تصدیق کریں",
-            "We will contact you within 24 hours to confirm installation details.": "ہم انسٹالیشن کی تفصیلات کی تصدیق کے لیے 24 گھنٹے کے اندر آپ سے رابطہ کریں گے۔",
+            "Your order will be processed internally upon submission.": "آپ کا آرڈر جمع کرانے پر اندرونی طور پر کارروائی کی جائے گی۔",
 
             // --- Placeholder Translations ---
             "Enter your full name": "اپنا پورا نام درج کریں",
@@ -877,7 +948,6 @@
             "Prevents overflow, prevents dry run, saves electricity, and protects the long-term health of your motor.": "اوور فلو سے بچاتا ہے، خشک چلنے سے روکتا ہے، بجلی بچاتا ہے، اور آپ کی موٹر کی طویل مدتی صحت کو محفوظ رکھتا ہے۔",
             "The **FLOW MAX** journey began with a simple, clear goal: to put an end to water wastage and the manual chore of operating water pumps. Founded by **Techworld Technology**, our focus is on building **CPU-based, robust automation** solutions that are reliable, durable, and universally compatible.": "فلو میکس کا سفر ایک سادہ، واضح مقصد کے ساتھ شروع ہوا: پانی کے ضیاع اور پانی کے پمپوں کو چلانے کے دستی کام کو ختم کرنا۔ **ٹیک ورلڈ ٹیکنالوجی** کی طرف سے قائم کیا گیا، ہمارا فوکس **سی پی یو پر مبنی، مضبوط آٹومیشن** حل تیار کرنے پر ہے جو قابل اعتماد، پائیدار، اور عالمی سطح پر ہم آہنگ ہوں۔",
             "Our vision, spearheaded by our founder, **Mr. Muhammad Younus**, was to create a solution that not only offers **unmatched convenience** but also contributes significantly to **saving electricity and conserving our most precious resource—water**. FLOW MAX is more than a controller; it's a commitment to a smarter, stress-free household.": "ہمارا وژن, جو ہمارے بانی, **جناب محمد یونس** کی قیادت میں ہے, ایک ایسا حل تیار کرنا تھا جو نہ صرف **بے مثال سہولت** فراہم کرے بلکہ **بجلی کی بچت اور ہمارے سب سے قیمتی وسائل — پانی** کے تحفظ میں بھی اہم کردار ادا کرے۔ فلو میکس صرف ایک کنٹرولر نہیں ہے؛ یہ ایک زیادہ سمارٹ، تناؤ سے پاک گھرانے کا عزم ہے۔",
-            "After clicking, you will be directed to WhatsApp with your order details.": "کلک کرنے کے بعد، آپ اپنے آرڈر کی تفصیلات کے ساتھ واٹس ایپ پر ری ڈائریکٹ ہو جائیں گے۔"
         };
         
         function toggleLanguage() {
@@ -928,42 +998,6 @@
             document.getElementById('lang-toggle').innerText = (nextLanguage === 'ur' ? "English / EN" : "English / اردو");
         }
         
-        // --- WhatsApp Form Submission Handler ---
-        function handleFormSubmit(event) {
-            event.preventDefault(); // Stop the form from submitting normally
-            
-            const form = document.getElementById('whatsappOrderForm');
-            const data = {
-                name: form.name.value,
-                phone: form.phone.value,
-                address: form.address.value,
-                model: form.model.options[form.model.selectedIndex].text,
-                motorType: form['motor-type'].value
-            };
-            
-            // Your WhatsApp number (Pakistan format)
-            const whatsappNumber = "923007023735"; 
-
-            // Create the pre-filled message
-            const message = 
-                `*--- 🚀 FLOW MAX Order Details ---*\n\n` +
-                `*Name:* ${data.name}\n` +
-                `*Phone:* ${data.phone}\n` +
-                `*Model:* ${data.model}\n` +
-                `*Motor HP:* ${data.motorType}\n` +
-                `*Address:* ${data.address}\n\n` +
-                `_Please confirm this order, and send the payment details._`;
-            
-            // Encode the message for the URL
-            const encodedMessage = encodeURIComponent(message);
-            
-            // Construct the final WhatsApp URL
-            const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
-            
-            // Open WhatsApp in a new tab/window
-            window.open(whatsappURL, '_blank');
-        }
-
         // --- Intersection Observer for section animations ---
         document.addEventListener('DOMContentLoaded', () => {
             const sections = document.querySelectorAll('.animated-section');
@@ -1080,4 +1114,3 @@
 
 </body>
 </html>
-
